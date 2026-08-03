@@ -1,0 +1,28 @@
+\begin{tikzpicture}[enpd/base]
+  % Server context
+  \enpdProcess{backend}{Backend}{}
+  \enpdProcess[right=of backend]{lm}{Language\\model}{}
+  \enpdStore[below=of lm]{localstorelm}{Model\\storage}{\qty{1}{\giga\byte}}{}
+  % Cloud context
+  \enpdStore[below=10.7em of backend]{imagedb}{Image\\database}{\qty{30}{\giga\byte}}{}
+  \enpdProcess[below=of imagedb]{imagegen}{Image\\generation}{}
+  \enpdStore[below=of imagegen]{cloudstoreimg}{Model\\storage}{\qty{4}{\giga\byte}}{}
+  \enpdProcess[below=of cloudstoreimg]{trainimg}{Model\\training}{}
+  \enpdStoreAt{cloudstorelm}{Model\\storage}{\qty{1}{\giga\byte}}{}{imagegen.east -| localstorelm.south}
+  \enpdProcess[below=of cloudstorelm]{trainlm}{Model\\training}{}
+  % Classroom
+  \enpdGroup[above=of backend]{classroom}{Classroom\\context}{10}
+  % Contexts
+  \enpdContext[pattern color=orange!55]{server}{$(backend.north -| imagedb.west)$}{$(localstorelm.south east)$}{Server}{1}
+  \enpdContext[pattern color=blue!35]{cloud}{$(imagedb.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}{1}
+  % Flows
+  \draw[enpd/flow-bi] (classroom.south) -- (backend.north);
+  \draw[enpd/flow-bi] (backend.east) -- (lm.west);
+  \draw[enpd/flow-uni] (lm.south) -- (localstorelm.north);
+  \draw[enpd/flow-uni] (cloudstorelm.north) -- (localstorelm.south);
+  \draw[enpd/flow-bi] (backend.south) -- (imagedb.north);
+  \draw[enpd/flow-uni] (trainlm.north) -- (cloudstorelm.south);
+  \draw[enpd/flow-uni] (imagegen.north) -- (imagedb.south);
+  \draw[enpd/flow-uni] (cloudstoreimg.north) -- (imagegen.south);
+  \draw[enpd/flow-uni] (trainimg.north) -- (cloudstoreimg.south);
+\end{tikzpicture}%

@@ -1,0 +1,31 @@
+\begin{tikzpicture}[enpd/base]
+  % Server context
+  \enpdProcess{backend}{Backend}{}
+  \enpdProcess[right=of backend]{lm}{Language\\model}{\qty{0.1}{\watthour} \mid 200}
+  \enpdStore[below=of lm]{localstorelm}{Model\\storage}{\qty{1}{\giga\byte}}{\qty{131}{\watthour}}
+  \enpdStore[below=of backend]{imagedb}{Image\\database}{\qty{3}{\giga\byte}}{\qty{400}{\watthour} \mid +\qty{12}{\watthour}}
+  \enpdHotspot[below=of imagedb]{imagegen}{Image\\generation}{\qty{25}{\watthour} \mid 300}
+  \enpdStore[below=of imagegen]{localstoreimg}{Model\\storage}{\qty{4}{\giga\byte}}{\qty{526}{\watthour}}
+  % Cloud context
+  \enpdStore[below=4.5em of localstoreimg]{cloudstoreimg}{Model\\storage}{\qty{4}{\giga\byte}}{\qty{175}{\watthour}}
+  \enpdProcess[below=of cloudstoreimg]{trainimg}{Model\\training}{\qty{500}{\kilo\watthour} \mid 1}
+  \enpdStoreAt{cloudstorelm}{Model\\storage}{\qty{1}{\giga\byte}}{\qty{44}{\watthour}}{cloudstoreimg.east -| localstorelm.south}
+  \enpdProcess[below=of cloudstorelm]{trainlm}{Model\\training}{\qty{10}{\kilo\watthour} \mid 1}
+  % Classroom
+  \enpdGroup[above=of backend]{classroom}{Classroom\\context}{10}
+  % Contexts
+  \enpdContext[pattern color=orange!55]{server}{$(backend.north -| imagedb.west)$}{$(localstoreimg.south -| localstorelm.east)$}{Server}{1}
+  \enpdContext[pattern color=blue!35]{cloud}{$(cloudstoreimg.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}{1}
+  \node[enpd/label,anchor=south] at (server.south) {[\qty{175}{\kilo\watthour}]};
+  % Flows
+  \draw[enpd/flow-bi] (classroom.south) -- (backend.north);
+  \draw[enpd/flow-bi] (backend.east) -- (lm.west);
+  \draw[enpd/flow-bi] (backend.south) -- (imagedb.north);
+  \draw[enpd/flow-uni] ([yshift=-3mm]lm.south) -- (localstorelm.north);
+  \draw[enpd/flow-uni] (cloudstorelm.north) -- node[enpd/flow-label] {[$\qty{0.1}{\watthour} \mid 1$]} ([yshift=-3mm]localstorelm.south);
+  \draw[enpd/flow-uni] (trainlm.north) -- ([yshift=-3mm]cloudstorelm.south);
+  \draw[enpd/flow-uni] (imagegen.north) -- ([yshift=-3mm]imagedb.south);
+  \draw[enpd/flow-uni] (cloudstoreimg.north) -- node[enpd/flow-label] {[$\qty{0.4}{\watthour} \mid 1$]} ([yshift=-3mm]localstoreimg.south);
+  \draw[enpd/flow-uni] (localstoreimg.north) -- ([yshift=-3mm]imagegen.south);
+  \draw[enpd/flow-uni] (trainimg.north) -- ([yshift=-3mm]cloudstoreimg.south);
+\end{tikzpicture}%
