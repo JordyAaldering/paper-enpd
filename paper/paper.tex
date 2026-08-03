@@ -168,7 +168,7 @@ Similarly, data minimisation techniques reduce privacy risks but may require add
 EnPDs bridge this gap by allowing software developers and stakeholders to quantify and visualise the energy cost of software system components, enabling informed trade-offs between security and sustainability.
 
 \begin{figure}[ht]
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
       \enpdProcess{process}{Process}{\si{\watthour\per\run} \mid \text{Total runs}}
@@ -176,7 +176,7 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
     \caption{Process node.}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
       \enpdHotspot{hotspot}{Hotspot}{\si{\watthour\per\run} \mid \text{Total runs}}
@@ -184,7 +184,7 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
     \caption{Hotspot process.}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
       \enpdStore{store}{Data Store}{X\,\si{\giga\byte}}{\si{\watthour} \mid + \Delta\si{\watthour}\,\text{growth}}
@@ -192,7 +192,7 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
     \caption{Data store node}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.23\textwidth}
+  \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
       \enpdGroup{group}{Group}{N}
@@ -286,22 +286,23 @@ The mAIndmap project addresses this by generating the mindmap structure and acco
 
 \subsection{Baseline: Skeleton DFD}
 The proposed architecture relies on two main AI components.
-First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\textasciitilde11.5 million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
+First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\qty{\approx11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
 Second, a text-to-image model generates age-appropriate illustrations in a consistent visual style.
 To keep latency low during lessons, images for words likely to arise in grades~1--3 are pre-generated, with missing images generated on demand.
 
-The architecture spans two contexts relevant to this case study: the school environment, which consists of classrooms and infrastructure, and a cloud-based back-end.
+The architecture spans two contexts relevant to this case study: the school environment, which consists of classrooms and infrastructure, and a cloud\-/based back\-/end.
 The project's design proposal contains a DPD that documents data flows and privacy classifications across these contexts, which serves as the starting point for the design of the skeleton Data Flow Diagram.
 After omitting details from the project proposal that are not relevant to the case study, we arrive at the DFD shown in Figure~\ref{fig:dfd}.
 
 \begin{figure}[ht]
+  \centering
   \input{fig_dpd.tex}%
   \caption{Skeleton Data Flow Diagram, extracted from the described architecture in the mAIndmap project proposal.}%
   \label{fig:dfd}
 \end{figure}
 
 \subsection{Constructing an EnPD from the DFD}
-Then, to construct an EnPD from the DFD, we maintain the same structure and add yearly energy labels to components and inter-context data flows.
+Then, to construct an EnPD from the DFD, we maintain the same structure and add yearly energy labels to components and inter\-/context data flows.
 The model represents a single school, with all energy terms scaled accordingly.
 The labels account for baseline infrastructure power, persistent storage, inference workloads and network transfer, using the assumptions summarised in Table~\ref{tab:energy-estimates}.
 
@@ -323,7 +324,7 @@ The labels account for baseline infrastructure power, persistent storage, infere
 \end{table}
 
 In the school context, three elements contribute energy: local infrastructure, local language model storage and local language model inference.
-We assume an always-on local server with a baseline draw of \qty{10}{\watt}, corresponding to \qty{88}{\kilo\watthour} per year.
+We assume an always\-/on local server with a baseline draw of \qty{10}{\watt}, corresponding to \qty{88}{\kilo\watthour} per year.
 Across grades \qtyrange{1}{3}, we estimate \qty{10} classes per school and \qty{20} lessons per class per year, giving \qty{200} mindmap requests annually.
 Language model inference executes locally at \qty{0.1}{\watthour} per mindmap structure.
 Its \qty{1}{\giga\byte} local model storage contributes \qty{131}{\watthour} per year.
@@ -341,6 +342,7 @@ The shared image database is assumed to start at \qty{100000} images and grow by
 With these assumptions, we obtain the baseline EnPD in Figure~\ref{fig:epd}.
 
 \begin{figure}[ht]
+  \centering
   \input{fig_epd.tex}%
   \caption{EnPD with a one-year timescale, created by extending the skeleton Data Flow Diagram with energy information.}%
   \label{fig:epd}
@@ -357,12 +359,13 @@ The local image database can also be smaller than the shared cloud database, ass
 We therefore assume a local image database that starts at \qty{10000} images and grows by 300 images per year.
 
 However, moving image generation to the school increases local energy demand.
-Without cloud-scale efficiency, school-local image generation is more expensive per image (\qty{25}{\watthour} local versus \qty{15}{\watthour} cloud).
+Without cloud\-/scale efficiency, school\-/local image generation is more expensive per image (\qty{25}{\watthour} local versus \qty{15}{\watthour} cloud).
 In addition, image generation may require dedicated hardware, which we model as an increase in the server's baseline power draw from \qty{10}{\watt} to \qty{20}{\watt}.
 Total school-side energy therefore rises to \qty{175}{\kilo\watthour} per year.
 The resulting architecture is shown in Figure~\ref{fig:epd-local}.
 
 \begin{figure}[ht]
+  \centering
   \input{fig_epd_local.tex}%
   \caption{EnPD with a one\-/year timescale, using school\-/local image inference and storage.}%
   \label{fig:epd-local}
@@ -381,6 +384,7 @@ This results in the architecture shown in Figure~\ref{fig:epd-prune}.
 In this variant, compression reduces both image inference cost and baseline infrastructure demand while preserving local operation.
 
 \begin{figure}[ht]
+  \centering
   \input{fig_epd_prune.tex}%
   \caption{EnPD with a one\-/year timescale, using local image inference and storage with a compressed model.}%
   \label{fig:epd-prune}
@@ -413,14 +417,14 @@ The case study reveals that the choice between centralised and distributed proce
 
 The EnPD framework proves particularly valuable in visualising these trade-offs, enabling stakeholders to understand how architectural decisions affect energy consumption at both component and system levels.
 For instance, while local processing of images eliminates network transfer costs, it introduces substantial computational overhead.
-Conversely, centralised processing reduces per-school computational requirements but increases network\-/induced energy consumption.
+Conversely, centralised processing reduces per\-/school computational requirements but increases network\-/induced energy consumption.
 These insights suggest that EnPDs can help software developers and stakeholders make more informed decisions about energy efficiency during early design phases.
 
 \subsection{Scope and practical considerations}
 The framework's practical application involves both opportunities and considerations.
 While EnPDs can potentially incorporate both estimated and measured energy values, our current case study demonstrates their utility with estimated data.
 This approach is particularly valuable during early architectural design when precise measurements may not yet be available.
-Future work could validate the framework using real-time energy monitoring tools, such as CarbonTracker~\cite{anthony2020carbontracker}, to explore how measurement data affects decision\-/making.
+Future work could validate the framework using real\-/time energy monitoring tools, such as CarbonTracker~\cite{anthony2020carbontracker}, to explore how measurement data affects decision\-/making.
 
 Several limitations of the current EnPD framework should be acknowledged.
 The framework focuses primarily on operational energy consumption, excluding environmental aspects of hardware manufacturing and disposal.
@@ -451,7 +455,7 @@ This section contextualises the EnPD framework within the broader landscape of g
 \paragraph{Data flows}
 The EnPD framework builds upon established diagramming techniques, such as Data Processing Diagrams~\cite{bieker2025data}, to model energy flows within software systems.
 DPDs provide a shared visual language for multidisciplinary teams to map context boundaries and implement mitigating measures like pseudonymisation or encryption.
-However, while traditional modelling approaches focus on functional requirements and data flow, they lack the native notation required to represent energy as a first-class architectural constraint.
+However, while traditional modelling approaches focus on functional requirements and data flow, they lack the native notation required to represent energy as a first\-/class architectural constraint.
 The EnPD framework addresses this limitation by treating energy data as essential architectural attributes, moving beyond legacy design principles that focused primarily on coupling and cohesion without regard for hardware-induced resource use~\cite{yourdon1979structured}.
 
 \paragraph{Standardised energy measurement}
@@ -461,7 +465,7 @@ This standardisation is critical for enabling reproducible evaluations and meani
 
 Quantifying environmental impact requires precise accounting of both operational and embodied carbon.
 Frameworks like Green Algorithms~\cite{lannelongue2021green} provide standardised methodologies to compute carbon dioxide equivalent (CO\textsubscript{2}eq) emissions based on runtime, hardware power draw and the carbon intensity of local energy grids.
-Complementary tools, such as CarbonTracker, enable real-time tracking and prediction of emissions during AI model training, integrating power metrics directly into the development workflow~\cite{anthony2020carbontracker}.
+Complementary tools, such as CarbonTracker, enable real\-/time tracking and prediction of emissions during AI model training, integrating power metrics directly into the development workflow~\cite{anthony2020carbontracker}.
 
 Recent research emphasises that such standardisation is essential to overcome the \emph{carbon tunnel vision} that often ignores critical impact categories like metal scarcity~\cite{ligozat2022unraveling}.
 However, while these tools excel at precise measurement of existing systems, they often require detailed runtime information that may not be available during early architectural design.
@@ -480,7 +484,7 @@ While operational emissions often dominate current discourse, embodied carbon fr
 
 \section{Conclusion}
 The Energy Processing Diagram framework offers a structured way to integrate energy awareness into software systems' design, providing a common language that bridges the gap between technical and non-technical stakeholders.
-By combining the transparency of DPDs with some of the methods proposed in GSMM, EnPDs enable meaningful, interdisciplinary discussions about sustainability without sacrificing technical depth.
+By combining the transparency of DPDs with some methods proposed in GSMM, EnPDs enable meaningful, interdisciplinary discussions about sustainability without sacrificing technical depth.
 This shared visual vocabulary facilitates communication between software developers, system architects, product managers and environmental specialists, allowing them to collaboratively identify and address energy concerns from the earliest design phases.
 
 The mAIndmap case study illustrates how careful architectural choices (like performing heavy computation offline or clarifying energy use across contexts) can help reduce environmental impact.
