@@ -1,0 +1,88 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[autostyle]{csquotes}
+
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none
+]{biblatex}
+\addbibresource{main.bib}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[shortcuts]{extdash}
+
+\usepackage{siunitx}
+\DeclareSIUnit\flop{FLOP}
+\DeclareSIUnit\watthour{Wh}
+\DeclareSIUnit\run{run}
+\DeclareSIUnit\image{image}
+\DeclareSIUnit\mindmap{mindmap}
+\DeclareSIUnit\transfer{transfer}
+\sisetup{per-mode=symbol,range-units=single,range-phrase=--}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\orient}{orient}
+
+\usepackage{pgfplots}
+\usetikzlibrary{backgrounds,calc,fit,patterns,positioning}
+% arrows.meta,fit,
+\pgfplotsset{compat=newest}
+
+\definecolor{energycolor}{RGB}{2,158,115}
+\definecolor{runtimecolor}{RGB}{5,121,153}
+\definecolor{corecolor}{RGB}{66,61,164}
+\definecolor{uncorecolor}{RGB}{164,66,61}
+\definecolor{ipccolor}{RGB}{164,61,159}
+\definecolor{colorblind0}{RGB}{1,115,178}
+\definecolor{colorblind1}{RGB}{222,143,5}
+\definecolor{colorblind2}{RGB}{2,158,115}
+\definecolor{colorblind3}{RGB}{213,94,0}
+\definecolor{colorblind4}{RGB}{204,120,188}
+\definecolor{colorblind5}{RGB}{202,145,97}
+\definecolor{colorblind6}{RGB}{251,175,228}
+\definecolor{colorblind7}{RGB}{148,148,148}
+\definecolor{colorblind8}{RGB}{236,225,51}
+\definecolor{colorblind9}{RGB}{86,180,233}
+
+\newcommand{\epyfigurewidth}{\linewidth}
+\newcommand{\epyheightratio}{0.85}
+
+\newcommand{\code}[1]{\texttt{#1}}
+
+\hyphenation{mind-map}
+\hyphenation{mind-maps}
+\hyphenation{mAInd-map}
+
+\title{Energy Processing Diagrams: Energy Cost Information in Data-Centred Projects}
+
+\author{Victor Zudilin \and Jordy Aaldering \and Bernard {van Gastel} \and Mart Lubbers \and Roel Bouman}
+
+\begin{document}
+
+\chapter{Energy Processing Diagrams: Energy Cost Information in Data-Centred Projects}
+
+\input{paper.tex}
+
+\section{Acknowledgments}
+This research is performed in context of the Dutch National Education Lab AI (NOLAI), funded by the Dutch National Growth Fund.
+
+\printbibliography
+
+\end{document}
