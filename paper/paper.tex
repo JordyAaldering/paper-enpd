@@ -286,7 +286,7 @@ The mAIndmap project addresses this by generating the mindmap structure and acco
 
 \subsection{Baseline: Skeleton DFD}
 The proposed architecture relies on two main AI components.
-First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\qty{\approx11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
+First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\qty{\sim11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
 Second, a text-to-image model generates age-appropriate illustrations in a consistent visual style.
 To keep latency low during lessons, images for words likely to arise in grades~1--3 are pre-generated, with missing images generated on demand.
 
@@ -438,7 +438,7 @@ To summarise, the current EnPD framework deliberately excludes several factors t
 These include:
 \begin{itemize}
   \item \emph{Embodied carbon.} The emissions from hardware manufacturing, transportation and disposal are excluded, as they depend heavily on supply chain factors and local manufacturing practices.
-  For mobile devices, embodied carbon can represent up to \qty{75}{\percent} of total life cycle emissions, while for servers operational emissions typically dominate (\qty{\approx75}{\percent} of total).
+  For mobile devices, embodied carbon can represent up to \qty{75}{\percent} of total life cycle emissions, while for servers operational emissions typically dominate (\qty{\sim75}{\percent} of total).
   \item \emph{Idle energy consumption.} The energy consumed by hardware components when idle is mostly excluded, as it can be easily incorporated at the context level when needed.
   This design choice maintains focus on soft\-ware-controlled energy consumption while allowing for flexibility in specific use cases.
   \item \emph{Network infrastructure.} The energy consumed by network routers, switches and other infrastructure components between system boundaries is excluded.
