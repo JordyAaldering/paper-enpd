@@ -286,7 +286,7 @@ The mAIndmap project addresses this by generating the mindmap structure and acco
 
 \subsection{Baseline: Skeleton DFD}
 The proposed architecture relies on two main AI components.
-First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\qty{\sim11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
+First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\num{\sim11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
 Second, a text-to-image model generates age-appropriate illustrations in a consistent visual style.
 To keep latency low during lessons, images for words likely to arise in grades~1--3 are pre-generated, with missing images generated on demand.
 
@@ -325,20 +325,20 @@ The labels account for baseline infrastructure power, persistent storage, infere
 
 In the school context, three elements contribute energy: local infrastructure, local language model storage and local language model inference.
 We assume an always\-/on local server with a baseline draw of \qty{10}{\watt}, corresponding to \qty{88}{\kilo\watthour} per year.
-Across grades \qtyrange{1}{3}, we estimate \qty{10} classes per school and \qty{20} lessons per class per year, giving \qty{200} mindmap requests annually.
+Across grades \numrange{1}{3}, we estimate \num{10} classes per school and \num{20} lessons per class per year, giving \num{200} mindmap requests annually.
 Language model inference executes locally at \qty{0.1}{\watthour} per mindmap structure.
 Its \qty{1}{\giga\byte} local model storage contributes \qty{131}{\watthour} per year.
 
 The cloud environment covers image generation, shared image storage and delivery to schools.
 The language model is synchronised once per year, while image retrieval requires a network transfer for every requested image.
 If an image is missing from the shared database, it is generated on demand and then retained in storage.
-We estimate \qty{15} images per mindmap, yielding \qty{3000} image retrievals per year across \qty{200} lessons, of which \qty{300} require generation.
+We estimate \num{15} images per mindmap, yielding \num{3000} image retrievals per year across \num{200} lessons, of which \num{300} require generation.
 
 The cloud context also contains training and model storage.
 Model training is assumed to consume \qty{10}{\kilo\watthour} for the language model and \qty{500}{\kilo\watthour} for the image model.
 We deliberately do not consider these nodes as hotspots, as they are not directly actionable for the stakeholders in this case study.
 Cloud storage is set to \qty{5}{\watt\per\tera\byte} and cloud image inference to \qty{15}{\watthour} per image, which is lower than the school context, reflecting economies of scale relative to local execution.
-The shared image database is assumed to start at \qty{100000} images and grow by \qty{1000} images per year.
+The shared image database is assumed to start at \num{100000} images and grow by \num{1000} images per year.
 With these assumptions, we obtain the baseline EnPD in Figure~\ref{fig:epd}.
 
 \begin{figure}[ht]
@@ -356,7 +356,7 @@ This is feasible without introducing a separate machine: the existing local serv
 Moving image generation and storage to the school substantially reduces network transfer.
 Instead of fetching all images from the cloud, only model weights are downloaded periodically.
 The local image database can also be smaller than the shared cloud database, assuming higher vocabulary overlap within one school.
-We therefore assume a local image database that starts at \qty{10000} images and grows by 300 images per year.
+We therefore assume a local image database that starts at \num{10000} images and grows by \num{300} images per year.
 
 However, moving image generation to the school increases local energy demand.
 Without cloud\-/scale efficiency, school\-/local image generation is more expensive per image (\qty{25}{\watthour} local versus \qty{15}{\watthour} cloud).
@@ -474,7 +474,7 @@ This forward\-/looking perspective is particularly valuable for identifying pote
 
 \paragraph{Green AI and architectural optimisation}
 The motivation for EnPDs is particularly acute in AI systems, where the exponential growth in computational demand has led to significant environmental concerns~\cite{schwartz2020green}.
-Studies indicate that training large language models can emit up to \qty{284} tonnes of CO\textsubscript{2}eq, highlighting the urgent need for sustainable design practices~\cite{strubell2019energy}.
+Studies indicate that training large language models can emit up to \num{284} tonnes of CO\textsubscript{2}eq, highlighting the urgent need for sustainable design practices~\cite{strubell2019energy}.
 Empirical evaluations of design patterns demonstrate that architectural choices can significantly impact energy consumption.
 For instance, certain object\-/oriented design patterns may increase energy usage by up to \qty{25}{\percent} compared to optimised alternatives~\cite{feitosa2017investigating}.
 Similarly, research on mobile applications identifies specific energy patterns that can be applied to reduce energy consumption~\cite{cruz2019catalog}.
