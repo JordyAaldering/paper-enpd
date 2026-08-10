@@ -1,20 +1,20 @@
 \tikzset{
   enpd/base/.style={
     ->,
-    font=\small,
-    node distance=3em and 8em
+    font=\scriptsize,
+    node distance=6ex and 7em
   },
   enpd/group/.style={
     draw,
     rectangle,
-    minimum height=3.2em,
+    minimum height=3em,
     minimum width=7em,
     align=center,
     fill=white
   },
   enpd/store/.style={
     rectangle,
-    minimum height=3.2em,
+    minimum height=3em,
     minimum width=7em,
     align=center,
     fill=white,
@@ -27,7 +27,7 @@
   enpd/process/.style={
     draw,
     circle,
-    minimum size=5.4em,
+    minimum size=5em,
     align=center,
     fill=white
   },
@@ -43,22 +43,15 @@
     draw,
     dashed,
     inner sep=1pt,
-    rounded corners=5pt,
+    rounded corners,
     pattern=north east lines
   },
   enpd/label/.style={
     fill=white,
-    opacity=0.65,
+    opacity=1,
     text opacity=1,
     inner sep=1pt
   },
-  enpd/flow-label/.style={
-    enpd/label,
-    opacity=1
-  },
-  enpd/flow/.style={thick},
-  enpd/flow-bi/.style={enpd/flow,<->},
-  enpd/flow-uni/.style={enpd/flow,->}
 }
 % \enpdStore[tikz options]{ref}{label}{count}{energy}
 \newcommand{\enpdStore}[5][]{%
@@ -101,8 +94,8 @@
 % \enpdContext[tikz options]{ref}{nw}{se}{label}{count}
 \newcommand{\enpdContext}[6][]{%
   \begin{scope}[on background layer]%
-    \coordinate (nw) at ($(#3) + (-4ex,4.5ex)$);%
-    \coordinate (se) at ($(#4) + (4ex,-4.5ex)$);%
+    \coordinate (nw) at ($(#3) + (-3ex,3ex)$);%
+    \coordinate (se) at ($(#4) + (3ex,-3ex)$);%
     \node[enpd/context,fit=(nw)(se),#1] (#2) {};%
   \end{scope}%
   \node[enpd/label,anchor=north west] at (#2.north west) {#5};%
@@ -171,7 +164,7 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
   \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
-      \enpdProcess{process}{Process}{\si{\watthour\per\run} \mid \text{Total runs}}
+      \enpdProcess{process}{Process}{\si{\watthour\per run} \mid \text{Total runs}}
     \end{tikzpicture}
     \caption{Process node.}
   \end{subfigure}
@@ -179,7 +172,7 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
   \begin{subfigure}[b]{0.23\linewidth}
     \centering
     \begin{tikzpicture}[enpd/base,scale=0.8]
-      \enpdHotspot{hotspot}{Hotspot}{\si{\watthour\per\run} \mid \text{Total runs}}
+      \enpdHotspot{hotspot}{Hotspot}{\si{\watthour\per run} \mid \text{Total runs}}
     \end{tikzpicture}
     \caption{Hotspot process.}
   \end{subfigure}
@@ -206,12 +199,12 @@ EnPDs bridge this gap by allowing software developers and stakeholders to quanti
 \subsection{Architectural modelling}
 DPDs provide a foundation for modelling modern, complex data processing systems through several core structural elements.
 Figure~\ref{fig:elements} shows how these elements are visualised in EnPDs:
-\begin{itemize}
-  \item \emph{Processes.} The computational operations that transform or handle data.
-  \item \emph{Hotspots.} Energy\-/intensive components, visually distinguished with a dashed red pattern.
-  \item \emph{Data stores.} Where data is held at rest.
-  \item \emph{Grouped entities.} A logical collection of external actors.
-\end{itemize}
+\begin{description}
+  \item[Processes] The computational operations that transform or handle data.
+  \item[Hotspots] Energy\-/intensive components, visually distinguished with a dashed red pattern.
+  \item[Data stores] Where data is held at rest.
+  \item[Grouped entities] A logical collection of external actors.
+\end{description}
 
 This abstraction is critical for multidisciplinary teams, as it provides a shared language that allows software developers and non-technical stakeholders to identify energy\-/intensive components and evaluate optimisation strategies, such as computational offloading or model compression, consistently across the system.
 
@@ -244,32 +237,31 @@ By focusing exclusively on \emph{operational energy} (the consumption driven by 
 This ensures that the model remains a clear reflection of architectural efficiency rather than a hardware life cycle assessment.
 
 To maintain clarity in multi\-/stakeholder settings and ensure that diagrams remain actionable, EnPDs adhere to the following conventions:
-\begin{itemize}
-  \item \emph{Context boundaries.} In the EnPD framework, the concept of boundaries is retained to define the structural and administrative environments of system components, though they do not explicitly imply energy responsibility or accountability.
+\begin{description}
+  \item[Context boundaries] In the EnPD framework, the concept of boundaries is retained to define the structural and administrative environments of system components, though they do not explicitly imply energy responsibility or accountability.
   This allows teams to distinguish between local, cloud and third\-/party environments without complicating the model with attributional logic.
-  \item \emph{Data flow representation.} Real-world network interactions often involve asymmetrical energy costs for uploading and downloading data.
+  \item[Data flow representation] Real\-/world network interactions often involve asymmetrical energy costs for uploading and downloading data.
   However, at the architectural design level, capturing this granularity often introduces additional complexity.
   EnPDs utilise an aggregated bidirectional metric for data flows, which can be expressed in two ways.
-  The first notation, $[\si{\watthour\per\transfer} \mid \text{Total transfers}]$, is intended for analytical modelling, where identifying the frequency of high\-/cost transfers is necessary to evaluate optimisation strategies, like batching.
+  The first notation, $[\si{\watthour\per transfer} \mid \text{Total transfers}]$, is intended for analytical modelling, where identifying the frequency of high\-/cost transfers is necessary to evaluate optimisation strategies, like batching.
   Alternatively, the $[\si{\watthour}]$ notation may be used for high\-/level summaries, providing a simplified, comparable value representing the total cost of a communication link without detailing the underlying frequency.
-  \item \emph{Process annotation.} Computational operations are treated as measured objects, with the annotation drawn directly beneath the component.
+  \item[Process annotation] Computational operations are treated as measured objects, with the annotation drawn directly beneath the component.
   Similar to data flows, designers can choose between two modes.
-  The $[\si{\watthour\per\run} \mid \text{Total runs}]$ notation is the preferred style for optimisation tasks, as it allows designers to distinguish between an inefficient algorithm and a high\-/demand service.
+  The $[\si{\watthour\per run} \mid \text{Total runs}]$ notation is the preferred style for optimisation tasks, as it allows designers to distinguish between an inefficient algorithm and a high\-/demand service.
   For instances where a process is a constant background task or where the frequency is irrelevant to the specific architectural comparison, the simplified $[\si{\watthour}]$ notation may be utilised.
-  \item \emph{Data storage metrics.} Storage units are annotated with their energy consumption in \si{\watthour}, shown below the component.
+  \item[Data storage metrics] Storage units are annotated with their energy consumption in \si{\watthour}, shown below the component.
   The physical size of the data store is indicated in the top\-/right corner using the notation ``n=X \si{\giga\byte}''.
   This separation of concerns allows designers to focus on both the storage requirements and their associated energy costs.
   The energy annotation can represent either the total annual cost of maintaining the stored data or, when relevant, the energy cost of data growth over time (for example, $[\si{\watthour} \mid + \Delta\si{\watthour}\,\text{growth}]$).
   This approach enables stakeholders to evaluate both the immediate and long-term energy use implications of data storage decisions.
-  \item \emph{Identification and visualisation of energy hotspots.} To support rapid decision\-/making, EnPDs make use of a structured pipeline.
+  \item[Hotspot identification] To support rapid decision\-/making, EnPDs make use of a structured pipeline.
   First, the total energy consumption for each individual component and data flow is calculated by multiplying its unit energy cost by its expected execution frequency.
   Second, a pool of hotspot candidates is established by filtering these results to include only \emph{actionable} nodes and data flows (the ones that the stakeholders have architectural control over).
   For instance, highly intensive cloud components, such as AI model training machines, are deliberately excluded from this candidate pool if they cannot be directly altered by the system design team.
   Third, the final hotspots are determined by isolating the candidates that exceed a predefined accepted threshold value that depends on the task associated with that node or data flow.
   These definitive hotspots are then visually highlighted using dashed red patterns: processes and data stores are marked with a red dashed background, while data flows are represented with dashed red arrows.
   This systematic filtering provides an immediate cognitive map of energy\-/intensive, addressable components, allowing system designers to quickly identify and prioritise them for refinement.
-\end{itemize}
-
+\end{description}
 By standardising these conventions, the EnPD framework ensures that energy annotations are not merely decorative but serve as a basis for comparing different architectures.
 This alignment between measurement and design allows for green software principles to be systematically applied during the earliest stages of the software development life cycle.
 
@@ -279,16 +271,16 @@ We start with a skeleton Data Flow Diagram derived from the project requirements
 The goal is to make trade-offs visible already during the design phase, while design choices are still open.
 
 NOLAI is an organisation focused on developing AI-driven solutions for educational purposes.
-One of their projects, mAIndmap, centres on an AI-assisted tool for vocabulary learning in early primary education (grades~1--3, ages~4--6, in the Dutch education system).
+One of their projects, mAIndmap, centres on an AI-assisted tool for vocabulary learning in early primary education (grades~\numrange{1}{3}, ages~\numrange{4}{6}, in the Dutch education system).
 Teachers in these grades use mindmaps to expand children's vocabulary: a central concept is shown with an image in the middle, surrounded by related words and images.
-In practice, creating such mindmaps is time-consuming and disrupts the flow of lessons, especially when teachers have to search for age-appropriate illustrations during classes.
+In practice, creating such mindmaps is time\-/consuming and disrupts the flow of lessons, especially when teachers have to search for age\-/appropriate illustrations during classes.
 The mAIndmap project addresses this by generating the mindmap structure and accompanying images automatically, with the help of several AI components.
 
 \subsection{Baseline: Skeleton DFD}
 The proposed architecture relies on two main AI components.
 First, a word-embedding model trained on the \emph{BasiLex} corpus~\cite{tellings2014basilex} (\num{\sim11.5} million words from Dutch primary school reading material) computes semantic similarity and determines word placement in the mindmap.
 Second, a text-to-image model generates age-appropriate illustrations in a consistent visual style.
-To keep latency low during lessons, images for words likely to arise in grades~1--3 are pre-generated, with missing images generated on demand.
+To keep latency low during lessons, images for words likely to arise in grades~\numrange{1}{3} are pre\-/generated, with missing images generated on demand.
 
 The architecture spans two contexts relevant to this case study: the school environment, which consists of classrooms and infrastructure, and a cloud\-/based back\-/end.
 The project's design proposal contains a DPD that documents data flows and privacy classifications across these contexts, which serves as the starting point for the design of the skeleton Data Flow Diagram.
@@ -312,8 +304,8 @@ The labels account for baseline infrastructure power, persistent storage, infere
     \toprule
     \multicolumn{1}{c}{Component} & \multicolumn{1}{c}{Cost}    \\
     \midrule
-    Mindmap structure size & \qty{10}{\kilo\byte\per\mindmap}   \\
-    Generated image size   & \qty{300}{\kilo\byte\per\image}    \\
+    Mindmap structure size & \qty{10}{\kilo\byte\per mindmap}   \\
+    Generated image size   & \qty{300}{\kilo\byte\per image}    \\
     Network transfer       & \qty{0.1}{\watthour\per\giga\byte} \\
     Local storage          & \qty{15}{\watt\per\tera\byte}      \\
     Cloud storage          & \qty{5}{\watt\per\tera\byte}       \\
@@ -402,7 +394,7 @@ From a platform provider perspective, the most actionable changes are cloud arch
 Stating this perspective clearly helps ensure that identified hotspots translate into concrete design decisions.
 
 These lessons generalise beyond mAIndmap.
-Any system that balances centralised and distributed processing faces similar tensions.
+Any system that balances centralised or distributed processing faces similar tensions.
 EnPDs offer a way to expose those tensions early, before the architecture is fixed.
 They can be used at different levels, from deployment level choices to targeted design decisions.
 Precise measurements are not required: rough estimates are sufficient to identify hotspots, motivate alternatives and reason about stakeholder-specific trade-offs.

@@ -18,14 +18,14 @@
   \enpdContext[pattern color=blue!35]{cloud}{$(cloudstoreimg.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}{1}
   \node[enpd/label,anchor=south] at (server.south) {[\qty{175}{\kilo\watthour}]};
   % Flows
-  \draw[enpd/flow-bi] (classroom.south) -- (backend.north);
-  \draw[enpd/flow-bi] (backend.east) -- (lm.west);
-  \draw[enpd/flow-bi] (backend.south) -- (imagedb.north);
-  \draw[enpd/flow-uni] ([yshift=-3mm]lm.south) -- (localstorelm.north);
-  \draw[enpd/flow-uni] (cloudstorelm.north) -- node[enpd/flow-label] {[$\qty{0.1}{\watthour} \mid 1$]} ([yshift=-3mm]localstorelm.south);
-  \draw[enpd/flow-uni] (trainlm.north) -- ([yshift=-3mm]cloudstorelm.south);
-  \draw[enpd/flow-uni] (imagegen.north) -- ([yshift=-3mm]imagedb.south);
-  \draw[enpd/flow-uni] (cloudstoreimg.north) -- node[enpd/flow-label] {[$\qty{0.4}{\watthour} \mid 1$]} ([yshift=-3mm]localstoreimg.south);
-  \draw[enpd/flow-uni] (localstoreimg.north) -- ([yshift=-3mm]imagegen.south);
-  \draw[enpd/flow-uni] (trainimg.north) -- ([yshift=-3mm]cloudstoreimg.south);
+  \draw[thick,<->] (classroom.south) -- (backend.north);
+  \draw[thick,<->] (backend.east) -- (lm.west);
+  \draw[thick,<->] (backend.south) -- (imagedb.north);
+  \draw[thick,->] ([yshift=-3mm]lm.south) -- (localstorelm.north);
+  \draw[thick,->] (cloudstorelm.north) -- node[enpd/label] {[$\qty{0.1}{\watthour} \mid 1$]} ([yshift=-3mm]localstorelm.south);
+  \draw[thick,->] (trainlm.north) -- ([yshift=-3mm]cloudstorelm.south);
+  \draw[thick,->] (imagegen.north) -- ([yshift=-3mm]imagedb.south);
+  \draw[thick,->] (cloudstoreimg.north) -- node[enpd/label] {[$\qty{0.4}{\watthour} \mid 1$]} ([yshift=-3mm]localstoreimg.south);
+  \draw[thick,->] (localstoreimg.north) -- ([yshift=-3mm]imagegen.south);
+  \draw[thick,->] (trainimg.north) -- ([yshift=-3mm]cloudstoreimg.south);
 \end{tikzpicture}%

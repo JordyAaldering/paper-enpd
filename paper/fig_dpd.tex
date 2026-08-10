@@ -16,13 +16,13 @@
   \enpdContext[pattern color=orange!55]{server}{$(backend.north -| imagedb.west)$}{$(localstorelm.south east)$}{Server}{1}
   \enpdContext[pattern color=blue!35]{cloud}{$(imagedb.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}{1}
   % Flows
-  \draw[enpd/flow-bi] (classroom.south) -- (backend.north);
-  \draw[enpd/flow-bi] (backend.east) -- (lm.west);
-  \draw[enpd/flow-uni] (lm.south) -- (localstorelm.north);
-  \draw[enpd/flow-uni] (cloudstorelm.north) -- (localstorelm.south);
-  \draw[enpd/flow-bi] (backend.south) -- (imagedb.north);
-  \draw[enpd/flow-uni] (trainlm.north) -- (cloudstorelm.south);
-  \draw[enpd/flow-uni] (imagegen.north) -- (imagedb.south);
-  \draw[enpd/flow-uni] (cloudstoreimg.north) -- (imagegen.south);
-  \draw[enpd/flow-uni] (trainimg.north) -- (cloudstoreimg.south);
+  \draw[thick,<->] (classroom.south) -- (backend.north);
+  \draw[thick,<->] (backend.east) -- (lm.west);
+  \draw[thick,->] (lm.south) -- (localstorelm.north);
+  \draw[thick,->] (cloudstorelm.north) -- (localstorelm.south);
+  \draw[thick,<->] (backend.south) -- (imagedb.north);
+  \draw[thick,->] (trainlm.north) -- (cloudstorelm.south);
+  \draw[thick,->] (imagegen.north) -- (imagedb.south);
+  \draw[thick,->] (cloudstoreimg.north) -- (imagegen.south);
+  \draw[thick,->] (trainimg.north) -- (cloudstoreimg.south);
 \end{tikzpicture}%
