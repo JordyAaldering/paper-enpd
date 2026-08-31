@@ -13,8 +13,8 @@
   % Classroom
   \enpdGroup[above=of backend]{classroom}{Classroom\\context}{10}
   % Contexts
-  \enpdContext[pattern color=orange!55]{server}{$(backend.north -| imagedb.west)$}{$(localstorelm.south east)$}{Server}{1}
-  \enpdContext[pattern color=blue!35]{cloud}{$(imagedb.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}{1}
+  \enpdContext[pattern color=orange!55]{server}{$(backend.north -| imagedb.west)$}{$(localstorelm.south east)$}{Server}
+  \enpdContext[pattern color=blue!35]{cloud}{$(imagedb.north west)$}{$(trainimg.south -| cloudstorelm.east)$}{Cloud}
   % Flows
   \draw[thick,<->] (classroom.south) -- (backend.north);
   \draw[thick,<->] (backend.east) -- (lm.west);

@@ -56,50 +56,49 @@
 % \enpdStore[tikz options]{ref}{label}{count}{energy}
 \newcommand{\enpdStore}[5][]{%
   \node[enpd/store,#1] (#2) {#3};%
-  \node[enpd/label,anchor=south east,yshift=1pt] at (#2.north east) {n=#4};%
+  \node[enpd/label,anchor=south east] at (#2.north east) {#4};%
   \def\enpdtmp{#5}\ifx\enpdtmp\empty\else
-    \node[enpd/label,anchor=north,yshift=-1pt] at (#2.south) {[$#5$]};%
+    \node[enpd/label,anchor=north] at (#2.south) {[$#5$]};%
   \fi
 }
 % \enpdStoreAt[tikz options]{ref}{label}{count}{energy}{at}
 \newcommand{\enpdStoreAt}[6][]{%
   \node[enpd/store,#1] (#2) at (#6) {#3};%
-  \node[enpd/label,anchor=south east,yshift=1pt] at (#2.north east) {n=#4};%
+  \node[enpd/label,anchor=south east] at (#2.north east) {#4};%
   \def\enpdtmp{#5}\ifx\enpdtmp\empty\else
-    \node[enpd/label,anchor=north,yshift=-1pt] at (#2.south) {[$#5$]};%
+    \node[enpd/label,anchor=north] at (#2.south) {[$#5$]};%
   \fi
 }
 % \enpdProcess[tikz options]{ref}{label}{energy}
 \newcommand{\enpdProcess}[4][]{%
   \node[enpd/process,#1] (#2) {#3};%
   \def\enpdtmp{#4}\ifx\enpdtmp\empty\else
-    \node[enpd/label,anchor=north,yshift=-1pt] at (#2.south) {[$#4$]};%
+    \node[enpd/label,anchor=north] at (#2.south) {[$#4$]};%
   \fi
 }
 \newcommand{\enpdHotspot}[4][]{%
   \node[enpd/hotspot,#1] (#2) {#3};%
   \def\enpdtmp{#4}\ifx\enpdtmp\empty\else
-    \node[enpd/label,anchor=north,yshift=-1pt] at (#2.south) {[$#4$]};%
+    \node[enpd/label,anchor=north] at (#2.south) {[$#4$]};%
   \fi
 }
 % \enpdGroup[tikz options]{ref}{label}{count}
 \newcommand{\enpdGroup}[4][]{%
   \node[enpd/group,#1] (#2) {#3};%
-  \node[enpd/label,anchor=south east,yshift=1pt] at ([xshift=2ex,yshift=2ex]#2.north east) {n=#4};%
+  \node[enpd/label,anchor=south east] at ([xshift=2ex,yshift=2ex]#2.north east) {#4};%
   \begin{scope}[on background layer]%
     \draw[fill=white] ([xshift=2ex,yshift=2ex]#2.north west) rectangle ([xshift=2ex,yshift=2ex]#2.south east);%
     \draw[fill=white] ([xshift=1ex,yshift=1ex]#2.north west) rectangle ([xshift=1ex,yshift=1ex]#2.south east);%
   \end{scope}%
 }
-% \enpdContext[tikz options]{ref}{nw}{se}{label}{count}
-\newcommand{\enpdContext}[6][]{%
+% \enpdContext[tikz options]{ref}{nw}{se}{label}
+\newcommand{\enpdContext}[5][]{%
   \begin{scope}[on background layer]%
     \coordinate (nw) at ($(#3) + (-3ex,3ex)$);%
     \coordinate (se) at ($(#4) + (3ex,-3ex)$);%
     \node[enpd/context,fit=(nw)(se),#1] (#2) {};%
   \end{scope}%
-  \node[enpd/label,anchor=north west] at (#2.north west) {#5};%
-  \node[enpd/label,anchor=north east] at (#2.north east) {n=#6};%
+  \node[enpd/label,anchor=north] at (#2.north) {#5};%
 }
 
 Deploying data\-/centred systems responsibly requires balancing different priorities, such as effectiveness, data privacy and environmental sustainability.
@@ -250,7 +249,7 @@ To maintain clarity in multi\-/stakeholder settings and ensure that diagrams rem
   The $[\si{\watthour\per run} \mid \text{Total runs}]$ notation is the preferred style for optimisation tasks, as it allows designers to distinguish between an inefficient algorithm and a high\-/demand service.
   For instances where a process is a constant background task or where the frequency is irrelevant to the specific architectural comparison, the simplified $[\si{\watthour}]$ notation may be utilised.
   \item[Data storage metrics] Storage units are annotated with their energy consumption in \si{\watthour}, shown below the component.
-  The physical size of the data store is indicated in the top\-/right corner using the notation ``n=X \si{\giga\byte}''.
+  The physical size of the data store is indicated in the top\-/right corner.
   This separation of concerns allows designers to focus on both the storage requirements and their associated energy costs.
   The energy annotation can represent either the total annual cost of maintaining the stored data or, when relevant, the energy cost of data growth over time (for example, $[\si{\watthour} \mid + \Delta\si{\watthour}\,\text{growth}]$).
   This approach enables stakeholders to evaluate both the immediate and long-term energy use implications of data storage decisions.
